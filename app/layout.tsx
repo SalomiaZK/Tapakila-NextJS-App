@@ -12,7 +12,7 @@ const poppins = Poppins({
 export const metadata = {
   title: "Tapakila App",
   icons: {
-    icon: "/assets/favion.png",
+    icon: "/assets/favicon.png",
   },
   type: "image/svg+xml",
 };

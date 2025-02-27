@@ -13,9 +13,9 @@ const Footer: React.FC = () => {
                     <Link href="/" className="w-20 h-20 rounded-full overflow-hidden mb-4">
                         <Image
                             src="/img/tapakila.png"
-                            alt="Diamond Store Logo"
-                            width={120}
-                            height={120}
+                            alt="Tapakila Logo"
+                            width={200}
+                            height={200}
                             className="w-full h-full object-cover"
                         />
                     </Link>
