@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@import './tailwind.css';
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+body {
+  font-family: Poppins, sans-serif;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
