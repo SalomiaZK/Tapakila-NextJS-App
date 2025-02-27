@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaSearch, FaUser } from "react-icons/fa";
-import { IoIosContact } from "react-icons/io";
 
 export default function Navbar() {
     return (
@@ -38,8 +37,7 @@ export default function Navbar() {
                             Événements
                         </Link>
                         <Link href="/contact" className="text-white hover:text-yellow-500">
-                            <IoIosContact className="inline-block mr-1" />
-                            Contact
+                            Contacts
                         </Link>
                         <Link
                             href="/login"
