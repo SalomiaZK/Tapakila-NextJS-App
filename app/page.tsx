@@ -47,6 +47,45 @@ const events = [
   },
 ];
 
+const eventSoon = [
+  {
+    id: "1",
+    name: "Concert de Rock",
+    date: "2024-01-15T20:00:00",
+    location: "Paris, France",
+    description: "Un concert de rock avec les meilleurs groupes internationaux.",
+    imageUrl: "https://via.placeholder.com/400",
+    category: "Spectacle",
+  },
+  {
+    id: "2",
+    name: "Exposition d'Art Moderne",
+    date: "2024-07-20T10:00:00",
+    location: "Lyon, France",
+    description: "Découvrez des œuvres d'art moderne de renommée mondiale.",
+    imageUrl: "https://via.placeholder.com/400",
+    category: "Culture",
+  },
+  {
+    id: "3",
+    name: "Match de Football",
+    date: "2024-10-10T18:00:00",
+    location: "Marseille, France",
+    description: "Supportez votre équipe préférée lors de ce match passionnant.",
+    imageUrl: "https://via.placeholder.com/400",
+    category: "Sports",
+  },
+  {
+    id: "4",
+    name: "Festival de Jazz",
+    date: "2024-05-25T19:00:00",
+    location: "Nice, France",
+    description: "Un festival de jazz avec des artistes internationaux.",
+    imageUrl: "https://via.placeholder.com/400",
+    category: "Spectacle",
+  },
+];
+
 const tickets = [
   {
     id: "1",
@@ -81,7 +120,7 @@ export default function Home() {
           </p>
           <Link
             href="/events"
-            className="bg-bleuElec text-blancCasse px-6 py-3 rounded-lg text-lg hover:bg-bleuNuit transition-colors"
+            className="bg-bleuElec text-blancCasse px-6 py-3 rounded-lg text-lg hover:bg-bleuNuit hover:text-orMetallique transition-colors"
           >
             Réserver Maintenant
           </Link>
@@ -133,11 +172,17 @@ export default function Home() {
             Événements à Venir
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {events
-              .filter((event) => new Date(event.date) > new Date())
-              .map((event) => (
-                <EventCard key={event.id} {...event} />
-              ))}
+            {eventSoon.filter((event) => true).length > 0 ? (
+              eventSoon
+                .filter((event) => true)
+                .map((event) => (
+                  <EventCard key={event.id} {...event} />
+                ))
+            ) : (
+              <p className="text-blancCasse text-lg">
+                Aucun événement à venir pour le moment.
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -150,7 +195,7 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="relative z-10">
-          <h2 className="text-2xl font-bold text-blancCasse mb-8">Spectacles</h2>
+          <h2 className="text-2xl font-bold text-blancCasse mb-8">Spectacles & Concerts</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {events
               .filter((event) => event.category === "Spectacle")
@@ -169,7 +214,7 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="relative z-10">
-          <h2 className="text-2xl font-bold text-blancCasse mb-8">Culture</h2>
+          <h2 className="text-2xl font-bold text-blancCasse mb-8">Festival & Culture</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {events
               .filter((event) => event.category === "Culture")
