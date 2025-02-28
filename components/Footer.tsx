@@ -7,7 +7,7 @@ import { MdEmail } from 'react-icons/md';
 
 const Footer: React.FC = () => {
     return (
-        <footer className="bg-black text-white py-6">
+        <footer className="bg-bleuNuit text-blancCasse py-6">
             <div className="container mx-auto flex flex-col lg:flex-row justify-between items-center px-4">
                 <div className="flex flex-col items-center lg:items-start mb-4 lg:mb-0">
                     <Link href="/" className="w-20 h-20 rounded-full overflow-hidden mb-4">
@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
                 <div className="flex flex-wrap justify-center lg:justify-end space-x-6 items-center mb-6 lg:mb-0">
                     <a
                         href="https://www.facebook.com/"
-                        className="text-blue-500 hover:text-blue-700"
+                        className="text-blancCasse hover:text-orMetallique"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
                     </a>
                     <a
                         href="https://www.instagram.com/"
-                        className="text-blue-500 hover:text-blue-700"
+                        className="text-blancCasse hover:text-orMetallique"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
                     </a>
                     <a
                         href="https://x.com/"
-                        className="text-blue-500 hover:text-blue-700"
+                        className="text-blancCasse hover:text-orMetallique"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
                     </a>
                     <a
                         href="https://linkedin.com/"
-                        className="text-blue-500 hover:text-blue-700"
+                        className="text-blancCasse hover:text-orMetallique"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -56,15 +56,15 @@ const Footer: React.FC = () => {
                     </a>
                     <a
                         href="https://web.whatsapp.com/"
-                        className="text-blue-500 hover:text-blue-700"
+                        className="text-blancCasse hover:text-orMetallique"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
                         <FaWhatsapp size={30} />
                     </a>
                     <a
-                        href="mailto: contact@diamond.store.mg"
-                        className="text-blue-500 hover:text-blue-700"
+                        href="mailto: contact@tapakila.app.mg"
+                        className="text-blancCasse hover:text-orMetallique"
                     >
                         <MdEmail size={30} />
                     </a>
@@ -72,11 +72,11 @@ const Footer: React.FC = () => {
             </div>
 
             <div className="text-center mt-3">
-                <h3 className="text-lg font-semibold text-blue-500 mb-4">Moyens de Paiement</h3>
+                <h3 className="text-lg font-semibold text-blancCasse mb-4">Moyens de Paiement</h3>
                 <div className="flex justify-center space-x-6">
                     <a
                         href="https://www.visa.com/"
-                        className="text-blue-500 hover:text-blue-700"
+                        className="text-blancCasse hover:text-orMetallique"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -84,7 +84,7 @@ const Footer: React.FC = () => {
                     </a>
                     <a
                         href="https://www.mastercard.com/"
-                        className="text-blue-500 hover:text-blue-700"
+                        className="text-blancCasse hover:text-orMetallique"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -92,7 +92,7 @@ const Footer: React.FC = () => {
                     </a>
                     <a
                         href="https://www.paypal.com/"
-                        className="text-blue-500 hover:text-blue-700"
+                        className="text-blancCasse hover:text-orMetallique"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -103,20 +103,20 @@ const Footer: React.FC = () => {
 
             <div className="text-center mt-7 px-4">
                 <div className="flex flex-wrap justify-center gap-4">
-                    <Link href="/" className="text-blue-500 hover:text-blue-700 hover:underline">
+                    <Link href="/" className="text-blancCasse hover:text-orMetallique hover:underline">
                         Accueil
                     </Link>
-                    <Link href="/about" className="text-blue-500 hover:text-blue-700 hover:underline">
+                    <Link href="/about" className="text-blancCasse hover:text-orMetallique hover:underline">
                         À propos de Tapakila
                     </Link>
-                    <Link href="/contacts" className="text-blue-500 hover:text-blue-700 hover:underline">
+                    <Link href="/contact" className="text-blancCasse hover:text-orMetallique hover:underline">
                         Prendre contact
                     </Link>
                 </div>
             </div>
 
-            <div className="w-full text-center bg-black py-3 mt-7">
-                <p className="text-blue-500">
+            <div className="w-full text-center py-3 mt-7">
+                <p className="text-blancCasse">
                     &copy; {new Date().getFullYear()} Tapakila App. Created by CodeV. All rights reserved.
                 </p>
             </div>

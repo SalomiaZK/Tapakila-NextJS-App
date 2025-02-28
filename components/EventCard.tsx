@@ -19,7 +19,7 @@ export default function EventCard({
     imageUrl,
 }: EventCardProps) {
     return (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+        <div className="bg-blancCasse rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
             <img src={imageUrl} alt={name} className="w-full h-48 object-cover" />
             <div className="p-4">
                 <h3 className="text-xl font-bold text-gray-800">{name}</h3>
@@ -34,7 +34,7 @@ export default function EventCard({
                 </div>
                 <Link
                     href={`/event/${id}`}
-                    className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    className="mt-4 inline-block bg-bleuElec text-blancCasse px-4 py-2 rounded-lg hover:bg-bleuNuit hover:text-orMetallique transition-colors"
                 >
                     Voir Détails
                 </Link>

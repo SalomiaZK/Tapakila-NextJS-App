@@ -14,7 +14,7 @@ interface TicketTableProps {
 
 export default function TicketTable({ tickets }: TicketTableProps) {
     return (
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-blancCasse text-bleuNuit rounded-lg shadow-md p-6">
             <h3 className="text-xl font-bold text-gray-800 mb-4">
                 <FaTicketAlt className="inline-block mr-2" />
                 Types de Billets
@@ -32,7 +32,7 @@ export default function TicketTable({ tickets }: TicketTableProps) {
                     {tickets.map((ticket) => (
                         <tr key={ticket.id} className="border-b">
                             <td className="py-3">{ticket.type}</td>
-                            <td className="py-3">{ticket.price} €</td>
+                            <td className="py-3">{ticket.price} Ar</td>
                             <td className="py-3">{ticket.quantity} disponibles</td>
                             <td className="py-3">{ticket.limitPerUser} max</td>
                         </tr>

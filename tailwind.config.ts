@@ -11,6 +11,12 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        bleuNuit: "#14213D",
+        orMetallique: "#FFBA08",
+        blancCasse:"#E5E5E5",
+        bleuElec: "#0077FF",
+        violetNeon: "#9B5DE5",
+        grisAnthracite: "#222222",
       },
     },
   },
