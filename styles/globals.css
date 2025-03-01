@@ -92,6 +92,11 @@ header {
   }
 }
 
+.shadow-neon-orMetallique {
+  box-shadow: 0 0 7px #ffd700, 0 0 7px #ffd700, 0 0 7px #ffd700;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

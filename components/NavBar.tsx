@@ -54,7 +54,12 @@ export default function Navbar() {
                         </Link>
                     </div>
 
-                    <div className="hidden lg:flex items-center bg-gray-100 text-bleuNuit rounded-xl px-3 py-2 w-1/3 transition-all duration-300">
+                    <div
+                        className={`hidden lg:flex items-center bg-gray-100 text-bleuNuit rounded-xl px-3 py-2 w-1/3 transition-all duration-300 ${isSearchFocused || searchValue
+                                ? "shadow-neon-orMetallique"
+                                : ""
+                            }`}
+                    >
                         <FaSearch className="text-gray-500" />
                         <input
                             type="text"
@@ -116,7 +121,12 @@ export default function Navbar() {
 
                 {isSearchOpen && (
                     <div className="lg:hidden mt-4 transition-all duration-300">
-                        <div className="flex items-center bg-gray-100 text-bleuNuit rounded-xl px-3 py-2">
+                        <div
+                            className={`flex items-center bg-gray-100 text-bleuNuit rounded-xl px-3 py-2 ${isSearchFocused || searchValue
+                                    ? "shadow-neon-orMetallique"
+                                    : ""
+                                }`}
+                        >
                             <FaSearch className="text-gray-500" />
                             <input
                                 type="text"
