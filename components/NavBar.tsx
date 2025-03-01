@@ -9,8 +9,8 @@ export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isSearchFocused, setIsSearchFocused] = useState(false);
     const [searchValue, setSearchValue] = useState("");
-    const [isMenuOpen, setIsMenuOpen] = useState(false); // État pour le menu hamburger
-    const [isSearchOpen, setIsSearchOpen] = useState(false); // État pour l'input de recherche mobile
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -34,7 +34,6 @@ export default function Navbar() {
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-20">
-                    {/* Logo et Nom du Site */}
                     <div className="flex items-center space-x-4">
                         <Link href="/">
                             <Image
@@ -55,8 +54,7 @@ export default function Navbar() {
                         </Link>
                     </div>
 
-                    {/* Barre de Recherche (Desktop) */}
-                    <div className="hidden lg:flex items-center bg-gray-100 text-bleuNuit rounded-lg px-3 py-2 w-1/3 transition-all duration-300">
+                    <div className="hidden lg:flex items-center bg-gray-100 text-bleuNuit rounded-xl px-3 py-2 w-1/3 transition-all duration-300">
                         <FaSearch className="text-gray-500" />
                         <input
                             type="text"
@@ -68,7 +66,6 @@ export default function Navbar() {
                         />
                     </div>
 
-                    {/* Icône de Recherche (Mobile) */}
                     <div className="lg:hidden flex items-center">
                         <button
                             onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -79,7 +76,6 @@ export default function Navbar() {
                         </button>
                     </div>
 
-                    {/* Menu Hamburger (Mobile) */}
                     <div className="lg:hidden flex items-center">
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -89,28 +85,24 @@ export default function Navbar() {
                         </button>
                     </div>
 
-                    {/* Liens de Navigation (Desktop) */}
                     <div className="hidden lg:flex items-center space-x-6">
                         <Link
                             href="/"
                             className="text-blancCasse hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r from-bleuElec to-orMetallique transition-all duration-300 hover-neon underline-uncurved"
                         >
-                            <span className="text-bleuElec">Acc</span>
-                            <span className="text-orMetallique">ueil</span>
+                            Accueil
                         </Link>
                         <Link
                             href="/events"
                             className="text-blancCasse hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r from-bleuElec to-orMetallique transition-all duration-300 hover-neon underline-uncurved"
                         >
-                            <span className="text-bleuElec">Évén</span>
-                            <span className="text-orMetallique">ements</span>
+                            Événements
                         </Link>
                         <Link
-                            href="/contact"
+                            href="/contacts"
                             className="text-blancCasse hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r from-bleuElec to-orMetallique transition-all duration-300 hover-neon underline-uncurved"
                         >
-                            <span className="text-bleuElec">Con</span>
-                            <span className="text-orMetallique">tacts</span>
+                            Contact
                         </Link>
                         <Link
                             href="/login"
@@ -122,10 +114,9 @@ export default function Navbar() {
                     </div>
                 </div>
 
-                {/* Input de Recherche (Mobile) */}
                 {isSearchOpen && (
                     <div className="lg:hidden mt-4 transition-all duration-300">
-                        <div className="flex items-center bg-gray-100 text-bleuNuit rounded-lg px-3 py-2">
+                        <div className="flex items-center bg-gray-100 text-bleuNuit rounded-xl px-3 py-2">
                             <FaSearch className="text-gray-500" />
                             <input
                                 type="text"
@@ -139,7 +130,6 @@ export default function Navbar() {
                     </div>
                 )}
 
-                {/* Menu de Navigation (Mobile) */}
                 {isMenuOpen && (
                     <div className="lg:hidden mt-4 transition-all duration-300">
                         <div className="flex flex-col space-y-4 bg-bleuNuit p-4 rounded-lg">

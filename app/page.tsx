@@ -122,7 +122,7 @@ export default function Home() {
             href="/events"
             className="bg-bleuElec text-blancCasse px-6 py-3 rounded-lg text-lg hover:bg-bleuNuit hover:text-orMetallique transition-colors"
           >
-            Réserver Maintenant
+            Découvrir Maintenant
           </Link>
         </div>
       </section>

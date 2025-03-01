@@ -33,7 +33,7 @@ export default function EventCard({
                     <span>{location}</span>
                 </div>
                 <Link
-                    href={`/event/${id}`}
+                    href={`/events/${id}`}
                     className="mt-4 inline-block bg-bleuElec text-blancCasse px-4 py-2 rounded-lg hover:bg-bleuNuit hover:text-orMetallique transition-colors"
                 >
                     Voir Détails
