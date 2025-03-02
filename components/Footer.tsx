@@ -19,7 +19,10 @@ const Footer: React.FC = () => {
                             className="w-full h-full object-cover"
                         />
                     </Link>
-                    <h1 className="text-2xl font-bold text-blancCasse">Tapakila</h1>
+                    <h1 className="text-2xl font-bold text-blancCasse">
+                        <span className="text-bleuElec">Tap</span>
+                        <span className="text-orMetallique">akila</span>
+                    </h1>
                 </div>
 
                 <div className="flex flex-wrap justify-center lg:justify-end space-x-6 items-center mb-6 lg:mb-0">
@@ -121,6 +124,12 @@ const Footer: React.FC = () => {
                         className="text-blancCasse hover:text-orMetallique transition-all duration-300 hover:underline hover:scale-105"
                     >
                         Prendre contact
+                    </Link>
+                    <Link
+                        href="/login"
+                        className="text-blancCasse hover:text-orMetallique transition-all duration-300 hover:underline hover:scale-105"
+                    >
+                        Se connecter
                     </Link>
                 </div>
             </div>

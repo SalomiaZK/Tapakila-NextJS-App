@@ -233,7 +233,7 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="relative z-10">
-          <h2 className="text-2xl font-bold text-blancCasse mb-8">Sports</h2>
+          <h2 className="text-2xl font-bold text-blancCasse mb-8">Sports & Loisirs</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {events
               .filter((event) => event.category === "Sports")

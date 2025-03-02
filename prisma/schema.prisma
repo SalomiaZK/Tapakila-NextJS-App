@@ -42,6 +42,7 @@ model Event {
     event_description String
     event_organizer String
     event_image String
+    event_category String
     tickets Ticket[]
     admin_id String
     admin Admin @relation(fields: [admin_id], references: [admin_id])

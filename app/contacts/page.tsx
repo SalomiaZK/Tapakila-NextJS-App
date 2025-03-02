@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
-import { FaEnvelope, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
+import { FaEnvelope } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaLinkedinIn, FaPhone } from 'react-icons/fa6';
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({
@@ -56,18 +56,18 @@ export default function ContactPage() {
             }}
         >
             <div className="flex flex-col lg:flex-row items-center justify-center gap-8 w-full max-w-6xl p-4 py-32">
-                <div className="bg-gray-900 bg-opacity-70 rounded-lg shadow-lg w-full lg:w-1/2 p-6 lg:p-10">
-                    <h1 className="text-3xl font-extrabold text-center text-bleuDiamant mb-8">
+                <div className="bg-gray-900 bg-opacity-70 rounded-xl shadow-lg w-full lg:w-1/2 p-6 lg:p-10">
+                    <h1 className="text-3xl font-extrabold text-center text-blancCasse mb-8">
                         Contactez-nous
                     </h1>
-                    <form onSubmit={handleSubmit} className="space-y-6 text-gray-100">
+                    <form onSubmit={handleSubmit} className="space-y-6 text-blancCasse">
                         <input
                             type="text"
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
                             placeholder="Votre nom"
-                            className="w-full bg-gray-800 p-4 border border-gray-700 rounded-md shadow-sm focus:ring-2 focus:ring-gray-700 focus:outline-none"
+                            className="w-full bg-bleuNuit p-4 border border-gray-700 rounded-md shadow-sm focus:ring-2 focus:ring-gray-700 focus:outline-none"
                         />
                         <input
                             type="email"
@@ -75,7 +75,7 @@ export default function ContactPage() {
                             value={formData.email}
                             onChange={handleChange}
                             placeholder="Votre e-mail"
-                            className="w-full bg-gray-800 p-4 border border-gray-700 rounded-md shadow-sm focus:ring-2 focus:ring-gray-700 focus:outline-none"
+                            className="w-full bg-bleuNuit p-4 border border-gray-700 rounded-md shadow-sm focus:ring-2 focus:ring-gray-700 focus:outline-none"
                         />
                         <input
                             type="text"
@@ -83,18 +83,18 @@ export default function ContactPage() {
                             value={formData.subject}
                             onChange={handleChange}
                             placeholder="Sujet"
-                            className="w-full bg-gray-800 p-4 border border-gray-700 rounded-md shadow-sm focus:ring-2 focus:ring-gray-700 focus:outline-none"
+                            className="w-full bg-bleuNuit p-4 border border-gray-700 rounded-md shadow-sm focus:ring-2 focus:ring-gray-700 focus:outline-none"
                         />
                         <textarea
                             name="message"
                             value={formData.message}
                             onChange={handleChange}
                             placeholder="Votre message"
-                            className="w-full bg-gray-800 p-4 border border-gray-700 rounded-md shadow-sm focus:ring-2 focus:ring-gray-700 focus:outline-none h-40"
+                            className="w-full bg-bleuNuit p-4 border border-gray-700 rounded-md shadow-sm focus:ring-2 focus:ring-gray-700 focus:outline-none h-40"
                         ></textarea>
                         <button
                             type="submit"
-                            className="w-full py-3 bg-bleuDiamant text-white rounded-md shadow-lg font-medium hover:bg-bleuTurquoise transition-all"
+                            className="w-full py-3 bg-bleuElec text-blancCasse rounded-md shadow-lg font-medium hover:bg-bleuNuit hover:text-orMetallique transition-all"
                         >
                             Envoyer
                         </button>
@@ -109,44 +109,41 @@ export default function ContactPage() {
                         </p>
                     )}
                 </div>
-                <div className="bg-gray-900 bg-opacity-70 rounded-lg shadow-lg w-full lg:w-1/2 p-6 lg:p-10">
-                    <h2 className="text-2xl font-bold text-center text-bleuDiamant mb-6">
+                <div className="bg-gray-900 bg-opacity-70 rounded-xl shadow-lg w-full lg:w-1/2 p-6 lg:p-10">
+                    <h2 className="text-2xl font-bold text-center text-blancCasse mb-6">
                         Coordonnées
                     </h2>
                     <p className="text-gray-300 text-center mb-6">
                         Vous pouvez également nous contacter directement à notre adresse ou par
                         téléphone.
                     </p>
-                    <div className="space-y-4 text-gray-100">
+                    <div className="space-y-4 text-blancCasse">
                         <div className="flex items-center">
-                            <FaMapMarkerAlt className="text-3xl text-bleuDiamant mr-4" />
+                            <FaPhone  className="text-3xl text-blancCasse mr-4" />
                             <p className="text-lg font-medium">
-                                Rue de la Haye, 101 Antananarivo Ville, Madagascar
+                                +261 038 00 000 00 ou +261 039 00 000 00
                             </p>
                         </div>
                         <div className="flex items-center">
-                            <FaPhone className="text-3xl text-bleuDiamant mr-4" />
-                            <p className="text-lg font-medium">
-                                +261 034 00 000 00 ou +261 039 00 000 00
-                            </p>
-                        </div>
-                        <div className="flex items-center">
-                            <FaEnvelope className="text-3xl text-bleuDiamant mr-4" />
+                            <FaEnvelope className="text-3xl text-blancCasse mr-4" />
                             <p className="text-lg font-medium">contact@tapakila.app.mg</p>
                         </div>
                     </div>
                     <div className="mt-8">
-                        <h3 className="text-xl font-semibold text-left text-bleuDiamant mb-4">
-                            Localisation
+                        <h3 className="text-xl font-semibold text-left text-blancCasse mb-4">
+                            Liens sociaux
                         </h3>
-                        <div className="w-full h-64 bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                            <Image
-                                src="/assets/carte.png"
-                                alt="Carte de localisation"
-                                width={400}
-                                height={300}
-                                className="w-full h-full object-cover"
-                            />
+                        <div className="flex items-center">
+                            <FaFacebook className="text-3xl text-blancCasse mr-4" />
+                            <p className="text-lg font-medium">TapakilaApp</p>
+                        </div>
+                        <div className="flex items-center mt-3">
+                            <FaInstagram className="text-3xl text-blancCasse mr-4" />
+                            <p className="text-lg font-medium">Tapakila_App_Mdg</p>
+                        </div>
+                        <div className="flex items-center mt-3">
+                            <FaLinkedinIn className="text-3xl text-blancCasse mr-4" />
+                            <p className="text-lg font-medium">Tapakila.app.mg</p>
                         </div>
                     </div>
                 </div>
