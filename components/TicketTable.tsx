@@ -4,8 +4,7 @@ interface Ticket {
     id: string;
     type: string;
     price: number;
-    quantity: number;
-    limitPerUser: number;
+    status: string; 
 }
 
 interface TicketTableProps {
@@ -24,8 +23,7 @@ export default function TicketTable({ tickets }: TicketTableProps) {
                     <tr className="border-b">
                         <th className="py-2">Type</th>
                         <th className="py-2">Prix</th>
-                        <th className="py-2">Disponibilité</th>
-                        <th className="py-2">Limite par Utilisateur</th>
+                        <th className="py-2">Statut</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,8 +31,7 @@ export default function TicketTable({ tickets }: TicketTableProps) {
                         <tr key={ticket.id} className="border-b">
                             <td className="py-3">{ticket.type}</td>
                             <td className="py-3">{ticket.price} Ar</td>
-                            <td className="py-3">{ticket.quantity} disponibles</td>
-                            <td className="py-3">{ticket.limitPerUser} max</td>
+                            <td className="py-3">{ticket.status}</td> 
                         </tr>
                     ))}
                 </tbody>

@@ -27,10 +27,10 @@ export async function getEventById(eventId: string) {
 }
 
 export async function getData() {
-    if (!process.env.DATABASE_URL_PSQL) {
-        throw new Error("DATABASE_URL_PSQL is not defined");
+    if (!process.env.DATABASE_URL) {
+        throw new Error("DATABASE_URL is not defined");
     }
-    const sql = neon(process.env.DATABASE_URL_PSQL);
+    const sql = neon(process.env.DATABASE_URL);
     const data = await sql`...`;
     return data;
 }

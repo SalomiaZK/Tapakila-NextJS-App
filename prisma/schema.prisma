@@ -1,6 +1,6 @@
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL_PSQL")
+  url       = env("DATABASE_URL")
 }
 
 generator client {
@@ -15,7 +15,8 @@ enum Type {
 
 enum Status {
     AVAILABLE
-    SOLID
+    RESERVED
+    SOLD
 }
 
 model Admin {
@@ -53,9 +54,8 @@ model Ticket {
     ticket_type Type
     ticket_price Int
     ticket_status Status
-    ticket_available_number Int
-    user_id String
-    user User @relation(fields: [user_id], references: [user_id])
+    user_id String?
+    user User? @relation(fields: [user_id], references: [user_id])
     event_id String
     event Event @relation(fields: [event_id], references: [event_id])
 }

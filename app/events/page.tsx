@@ -2,20 +2,14 @@
 
 import { getEvents } from "@/app/actions";
 import EventCard from "@/components/EventCard";
-import { useEffect, useState } from "react";
-
-interface Event {
-    id: string;
-    name: string;
-    date: string;
-    location: string;
-    description: string;
-    imageUrl: string;
-    category: string;
-}
+import { useEventStore } from "@/stores/eventStore";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 export default function EventsPage() {
-    const [events, setEvents] = useState<Event[]>([]);
+    const { events, setEvents } = useEventStore();
+    const searchParams = useSearchParams();
+    const searchQuery = searchParams.get("search") || "";
 
     useEffect(() => {
         async function fetchEvents() {
@@ -32,15 +26,19 @@ export default function EventsPage() {
             setEvents(formattedEvents);
         }
         fetchEvents();
-    }, []);
+    }, [setEvents]);
 
-    const eventsByCategory = events.reduce((acc, event) => {
+    const filteredEvents = events.filter((event) =>
+        event.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const eventsByCategory = filteredEvents.reduce((acc: Record<string, any[]>, event: any) => {
         if (!acc[event.category]) {
             acc[event.category] = [];
         }
         acc[event.category].push(event);
         return acc;
-    }, {} as Record<string, Event[]>);
+    }, {} as Record<string, any[]>);
 
     return (
         <div
@@ -49,87 +47,31 @@ export default function EventsPage() {
                 backgroundImage: "url('/img/bgEvent.jpg')"
             }}
         >
-
-            <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-
-            <div className="p-16">
+            <div className="absolute inset-0 bg-black bg-opacity-60 pointer-events-none"></div>
+            <div className="p-16 relative z-10">
                 <h1 className="text-4xl font-bold text-bleuNuit text-center mb-8">
                     Événements
                 </h1>
-
-                <section className="mb-12">
-                    <h2 className="text-3xl font-bold text-bleuNuit mb-6">
-                        Spectacles et Concerts
-                    </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {eventsByCategory["Spectacles et Concerts"]?.map((event: Event) => (
-                            <EventCard
-                                key={event.id}
-                                id={event.id}
-                                name={event.name}
-                                date={event.date}
-                                location={event.location}
-                                description={event.description}
-                                imageUrl={event.imageUrl}
-                            />
-                        ))}
-                    </div>
-                </section>
-
-                <section className="mb-12">
-                    <h2 className="text-3xl font-bold text-bleuNuit mb-6">
-                        Cultures et Festivals
-                    </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {eventsByCategory["Cultures et Festivals"]?.map((event: Event) => (
-                            <EventCard
-                                key={event.id}
-                                id={event.id}
-                                name={event.name}
-                                date={event.date}
-                                location={event.location}
-                                description={event.description}
-                                imageUrl={event.imageUrl}
-                            />
-                        ))}
-                    </div>
-                </section>
-
-                <section className="mb-12">
-                    <h2 className="text-3xl font-bold text-bleuNuit mb-6">
-                        Sports et Loisirs
-                    </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {eventsByCategory["Sports et Loisirs"]?.map((event: Event) => (
-                            <EventCard
-                                key={event.id}
-                                id={event.id}
-                                name={event.name}
-                                date={event.date}
-                                location={event.location}
-                                description={event.description}
-                                imageUrl={event.imageUrl}
-                            />
-                        ))}
-                    </div>
-                </section>
-
-                <section className="mb-12">
-                    <h2 className="text-3xl font-bold text-bleuNuit mb-6">Autres</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {eventsByCategory["Autres"]?.map((event: Event) => (
-                            <EventCard
-                                key={event.id}
-                                id={event.id}
-                                name={event.name}
-                                date={event.date}
-                                location={event.location}
-                                description={event.description}
-                                imageUrl={event.imageUrl}
-                            />
-                        ))}
-                    </div>
-                </section>
+                {Object.entries(eventsByCategory).map(([category, events]) => (
+                    <section key={category} className="mb-12">
+                        <h2 className="text-3xl font-bold text-bleuNuit mb-6">
+                            {category}
+                        </h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {events.map((event: any) => (
+                                <EventCard
+                                    key={event.id}
+                                    id={event.id}
+                                    name={event.name}
+                                    date={event.date}
+                                    location={event.location}
+                                    description={event.description}
+                                    imageUrl={event.imageUrl}
+                                />
+                            ))}
+                        </div>
+                    </section>
+                ))}
             </div>
         </div>
     );
