@@ -1,0 +1,77 @@
+import NextAuth from "next-auth";
+import authconfig from "./auth.config";
+import Credentials from "next-auth/providers/credentials";
+import { prisma } from "./prisma";
+import { JWT } from "next-auth/jwt";
+
+
+interface CustomUser {
+    id: string
+    email: string
+    name: string
+    password : string
+}
+  
+
+
+export const {handlers,signIn, signOut,auth}= NextAuth({
+     session : {strategy: "jwt"},
+     providers: [...authconfig.providers, 
+        
+        
+        
+        Credentials({
+            name: "Codev Provider",
+            credentials:{
+                email: {label: "Email", type: "email"},
+                password: {label: "Password", type: "password"}
+            },
+
+            async authorize(credentials){
+                const user = await prisma.user.findUnique({
+                    where: {
+                        user_email: credentials?.email as string
+                    }
+                })
+
+                if(user && user.user_password === credentials.password){
+                    const customUser: CustomUser = {
+                        id: user.user_id,
+                        email: user.user_email,
+                        name: user.user_name,
+                        password: user.user_password
+                    };
+                    return customUser;
+                } else {
+                    return null;
+                }
+
+
+            }
+        }),
+
+     ],
+
+     callbacks:{
+        async jwt({ token, user }) {
+            // Persist the OAuth access_token to the token right after signin
+            if (user) {
+              token.name = user.name,
+              token.email = user.email
+                token.id = user.id
+            }
+            return token
+          },
+          async session({ session, token,  }) {
+    
+            // Send properties to the client, like an access_token from a provider.
+            session.user.id = token.id as string
+            session.user.email = token.email ?? ""
+            session.user.name = token.name
+            return session
+          }
+     }
+
+     
+  
+})
