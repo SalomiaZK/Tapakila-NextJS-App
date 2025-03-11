@@ -31,7 +31,7 @@ export default function Home() {
       try {
         const response = await fetch("/api/events");
         if (!response.ok) {
-          throw new Error("Erreur lors de la récupération des événements");
+          throw new Error("Erreur de chargement de la page");
         }
         const data = await response.json();
         const formattedEvents = data.map((event: any) => ({
@@ -74,7 +74,7 @@ export default function Home() {
               Chargement en cours...
             </div>
           ) : error ? (
-            <div className="text-center text-bordeaux text-xl py-36">
+            <div className="text-center text-red-500 text-xl py-36">
               {error}
             </div>
           ) : (
