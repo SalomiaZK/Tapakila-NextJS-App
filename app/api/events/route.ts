@@ -1,3 +1,4 @@
+
 import { prisma } from "@/lib/prisma"
 
 
@@ -7,17 +8,7 @@ export async function GET() {
     return new Response(JSON.stringify(events), {status:200, headers: {'Content-Type': 'application/json'}});
 }
 
-
-
-
-
-
-
-
-
 export async function POST(request : Request) {
-
-
   try{
     const body =await request.json()
     const { event_name, event_place, event_category, event_date, event_description, event_organizer , event_id, event_image, admin_id} = body
@@ -55,9 +46,6 @@ export async function POST(request : Request) {
       await prisma.$disconnect()
     }
 }
-
-
-
 
 /**import { PrismaClient } from '@prisma/client';
 
@@ -103,3 +91,32 @@ export async function POST(request) {
     await prisma.$disconnect();
   }
 } */
+
+
+/**import { PrismaClient } from '@prisma/client';
+import { NextResponse } from 'next/server';
+
+const prisma = new PrismaClient();
+
+export async function GET() {
+    try {
+        const events = await prisma.event.findMany({
+            include: {
+                tickets: true,
+            },
+        });
+
+        const validStatuses = ['AVAILABLE','RESERVED', 'SOLD'];
+        const validatedEvents = events.map(event => ({
+            ...event,
+            tickets: event.tickets.map(ticket => ({
+                ...ticket,
+                ticket_status: validStatuses.includes(ticket.ticket_status) ? ticket.ticket_status : 'AVAILABLE',
+            })),
+        }));
+
+        return NextResponse.json(validatedEvents);
+    } catch (error) {
+        return NextResponse.json({ error: 'Failed to fetch events' }, { status: 500 });
+    }
+}*/
