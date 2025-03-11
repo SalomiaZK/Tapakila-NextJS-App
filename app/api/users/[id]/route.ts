@@ -1,9 +1,9 @@
 import { prisma } from "@/lib/prisma"
 
 
-export async function GET(request: Request, {params} : {params: {id: string}}){
+export async function GET(request: Request, {params} : {params: Promise<{id: string}>}){
     try{
-        const {id} = params
+        const {id} = await params
         const user = await prisma.user.findUnique({
             where: {
                 user_id: id
@@ -21,10 +21,10 @@ export async function GET(request: Request, {params} : {params: {id: string}}){
       }
 }
 
-export async function PUT(request : Request, {params}: {params: {id: string}}) {
+export async function PUT(request : Request, {params}: {params: Promise<{id: string}>}) {
     try{
         const body = await request.json()
-        const {id} = params
+        const {id} = await params
         const userToUpdate = await prisma.user.findUnique({
             where:{
                 user_id: id
@@ -60,10 +60,10 @@ export async function PUT(request : Request, {params}: {params: {id: string}}) {
 
 
 // ============ ADMIN============
-export async function DELETE(request : Request , {params}: {params :{id: string}}){
+export async function DELETE(request : Request , {params}: {params :Promise<{id: string}>}){
     try{
 
-        const id = params.id
+        const {id} = await params
         const userToDelete = await prisma.user.findUnique({
             where:{
                 user_id: id

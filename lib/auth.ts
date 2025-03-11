@@ -5,11 +5,11 @@ import { prisma } from "./prisma";
 import { JWT } from "next-auth/jwt";
 
 
-interface CustomUser {
-    id: string
-    email: string
-    name: string
-    password : string
+export interface CustomUser {
+    id: string,
+    email: string,
+    name: string,
+    password: string
 }
   
 
@@ -53,24 +53,33 @@ export const {handlers,signIn, signOut,auth}= NextAuth({
      ],
 
      callbacks:{
-        async jwt({ token, user }) {
-            // Persist the OAuth access_token to the token right after signin
+        async jwt({ token, user }: { token: JWT, user?: any }) {
             if (user) {
-              token.name = user.name,
-              token.email = user.email
-                token.id = user.id
+              token.name = user.name;
+              token.email = user.email;
             }
-            return token
+            return token;
           },
+
+
+
           async session({ session, token,  }) {
     
             // Send properties to the client, like an access_token from a provider.
             session.user.id = token.id as string
             session.user.email = token.email ?? ""
             session.user.name = token.name
+            
             return session
-          }
-     }
+          },
+
+         
+     },
+
+     pages: {
+        signIn: "/login", // Page de connexion personnalisée
+      },
+
 
      
   

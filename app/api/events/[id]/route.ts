@@ -1,15 +1,14 @@
-import { PrismaClient } from "@prisma/client"
 import { prisma } from "@/lib/prisma"
 
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
     console.log(request);
 
 
 
 
     try {
-        const { id } = params
+        const { id } = await params
         const body = await request.json()
 
         const event = await prisma.event.findUnique({
