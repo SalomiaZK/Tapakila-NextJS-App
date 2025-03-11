@@ -28,7 +28,7 @@ export default function EventsPage() {
         fetchEvents();
     }, [setEvents]);
 
-    const filteredEvents = events.filter((event) =>
+    const filteredEvents = events.filter((event: { name: string; }) =>
         event.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
@@ -58,7 +58,7 @@ export default function EventsPage() {
                             {category}
                         </h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {events.map((event: any) => (
+                            {(events as any[]).map((event: any) => (
                                 <EventCard
                                     key={event.id}
                                     id={event.id}
