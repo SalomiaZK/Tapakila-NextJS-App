@@ -1,61 +1,65 @@
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
-enum Type {
-    VIP
-    STANDARD
-    EARLY_BIRD
+enum Type{
+  VIP
+  STANDARD
+  EARLY_BIRD
 }
 
-enum Status {
-    AVAILABLE
-    RESERVED
-    SOLD
+enum Status{
+  AVAILABLE
+  RESERVED
+  SOLD
+}
+model Admin{
+  admin_id  String @id
+  admin_name String
+  admin_mail String @unique
+  admin_password String
+  
+  event Event[]
 }
 
-model Admin {
-    admin_id String @id
-    admin_name String
-    admin_mail String @unique
-    admin_password String
-    events Event[]
+
+model User{
+  user_id String  @id
+  user_name String
+  user_email String @unique
+  user_password String
+  
+  tickets Ticket[]
 }
 
-model User {
-    user_id String @id
-    user_name String 
-    user_email String @unique
-    user_password String
-    tickets Ticket[]
+model Event{
+  event_id String @id
+  event_name String
+  event_date DateTime
+  event_place String
+  event_description String
+  event_organizer String
+  event_image  String // url image
+  event_category String
+  // status : if date is passed, status is closed
+  tickets Ticket[]
+  admin_id String
+  admin Admin @relation(fields: [admin_id], references: [admin_id])
 }
 
-model Event {
-    event_id String @id
-    event_name String
-    event_date DateTime
-    event_place String
-    event_description String
-    event_organizer String
-    event_image String
-    event_category String
-    tickets Ticket[]
-    admin_id String
-    admin Admin @relation(fields: [admin_id], references: [admin_id])
-}
 
-model Ticket {
-    ticket_id String @id
-    ticket_type Type
-    ticket_price Int
-    ticket_status Status
-    user_id String?
-    user User? @relation(fields: [user_id], references: [user_id])
-    event_id String
-    event Event @relation(fields: [event_id], references: [event_id])
+model  Ticket{
+  ticket_id String @id
+  ticket_type Type
+  ticket_price Int
+  ticket_status Status // sold or not for the admin
+  user_id String?
+  user User? @relation(fields: [user_id], references: [user_id])
+  event_id String
+  event Event @relation(fields: [event_id], references: [event_id])
 }
