@@ -12,14 +12,14 @@ export async function POST(request: Request) {
 
     if (!user) {
       return Response.json(
-        { error: 'Utilisateur non trouvé' },
+        { error: 'user not found' },
         { status: 404 }
       );
     }
 
     if (password !== user.user_password) {
       return Response.json(
-        { error: 'Mot de passe incorrect' },
+        { error: 'Invalid password' },
         { status: 401 }
       );
     }
