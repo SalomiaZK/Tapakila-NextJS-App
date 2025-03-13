@@ -11,9 +11,11 @@ export async function getEvents() {
                 "Content-Type": "application/json",
             },
         });
+
         if (!response.ok) {
             throw new Error("Failed to fetch events");
         }
+
         return await response.json();
     } catch (error) {
         console.error("Error fetching events:", error);

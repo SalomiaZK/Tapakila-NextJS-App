@@ -1,22 +1,22 @@
-import { auth } from "@/app/api/auth/[...nextauth]/route"; // Importe la fonction `auth` depuis ton fichier de configuration
+import { auth } from "@/app/api/auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 
 export default auth((req) => {
     const { pathname } = new URL(req.url);
 
     const publicRoutes = [
+        "/",
         "/login",
         "/signup",
     ];
 
-    // Rediriger les utilisateurs authentifiés qui essaient d'accéder à des routes publiques
     if (req.auth && publicRoutes.includes(pathname)) {
         return NextResponse.redirect(new URL("/", req.url).toString(), 302);
     }
 
- 
-
     return NextResponse.next();
+    ]
+    return NextResponse.next()
 });
 
 export const config = {

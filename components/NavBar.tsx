@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Importez useRouter
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaBars, FaSearch, FaTimes, FaUser } from "react-icons/fa";
 
@@ -12,7 +12,7 @@ export default function Navbar() {
     const [searchValue, setSearchValue] = useState("");
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const router = useRouter(); // Utilisez useRouter pour la redirection
+    const router = useRouter();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -27,11 +27,10 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Fonction pour gérer la soumission de la recherche
     const handleSearchSubmit = (e: React.FormEvent) => {
-        e.preventDefault(); // Empêcher le rechargement de la page
+        e.preventDefault();
         if (searchValue.trim()) {
-            router.push(`/events?search=${encodeURIComponent(searchValue)}`); // Rediriger avec le paramètre de recherche
+            router.push(`/events?search=${encodeURIComponent(searchValue)}`);
         }
     };
 
@@ -64,7 +63,6 @@ export default function Navbar() {
                         </Link>
                     </div>
 
-                    {/* Formulaire de recherche */}
                     <form
                         onSubmit={handleSearchSubmit}
                         className={`hidden lg:flex items-center bg-gray-100 text-bleuNuit rounded-xl px-3 py-2 w-1/3 transition-all duration-300 ${isSearchFocused || searchValue
@@ -84,7 +82,6 @@ export default function Navbar() {
                         />
                     </form>
 
-                    {/* Bouton de recherche pour mobile */}
                     <div className="lg:hidden flex items-center">
                         <button
                             onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -95,7 +92,6 @@ export default function Navbar() {
                         </button>
                     </div>
 
-                    {/* Menu mobile */}
                     <div className="lg:hidden flex items-center">
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -105,7 +101,6 @@ export default function Navbar() {
                         </button>
                     </div>
 
-                    {/* Liens de navigation */}
                     <div className="hidden lg:flex items-center space-x-6">
                         <Link
                             href="/"
@@ -135,7 +130,6 @@ export default function Navbar() {
                     </div>
                 </div>
 
-                {/* Formulaire de recherche mobile */}
                 {isSearchOpen && (
                     <div className="lg:hidden mt-4 transition-all duration-300">
                         <form
@@ -159,7 +153,6 @@ export default function Navbar() {
                     </div>
                 )}
 
-                {/* Menu mobile */}
                 {isMenuOpen && (
                     <div className="lg:hidden mt-4 transition-all duration-300">
                         <div className="flex flex-col space-y-4 bg-bleuNuit p-4 rounded-lg">
