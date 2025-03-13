@@ -30,6 +30,7 @@ export default function Home() {
     async function fetchEvents() {
       try {
         const response = await fetch("/api/events");
+        console.log("Réponse de l'API :", response);
         if (!response.ok) {
           throw new Error("Erreur de chargement de la page");
         }

@@ -1,44 +1,16 @@
 "user server";
 
 import { prisma } from "@/lib/prisma";
+import { neon } from "@neondatabase/serverless";
 import { Type } from "@prisma/client";
 
-export async function getEvents() {
-    try {
-        const response = await fetch("/api/events", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to fetch events");
-        }
-
-        return await response.json();
-    } catch (error) {
-        console.error("Error fetching events:", error);
-        throw error;
+export async function getData() {
+    if (!process.env.DATABASE_URL) {
+        throw new Error("DATABASE_URL is not defined");
     }
-}
-
-export async function getEventById(eventId: string) {
-    try {
-        const response = await fetch(`/api/events/${eventId}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        if (!response.ok) {
-            throw new Error("Failed to fetch event");
-        }
-        return await response.json();
-    } catch (error) {
-        console.error("Error fetching event:", error);
-        throw error;
-    }
+    const sql = neon(process.env.DATABASE_URL);
+    const data = await sql`...`;
+    return data;
 }
 
 export async function BookATicket({ data }: { data: { userId: string, ticketNumber: number, requestType: "CANCEL" | "BOOK", ticketType: Type } }) {
