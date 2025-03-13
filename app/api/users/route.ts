@@ -4,8 +4,18 @@ import { randomUUID } from "crypto";
 export async function GET(request: Request) {
     try {
 
+<<<<<<< HEAD
         const url = new URL(request.url)
         const page = parseInt(url.searchParams.get("page") || '1', 10)
+=======
+// recherche les users avec pagination
+export async function GET(request : Request) {
+    try{
+
+        const url= new URL(request.url)       
+         const page = parseInt(url.searchParams.get("page") || '1', 10)
+
+>>>>>>> main
         const pageSize = parseInt(url.searchParams.get("pageSize") || '10', 10)
 
         const offset = (page - 1) * pageSize
