@@ -2,12 +2,13 @@ import { randomUUID } from "crypto";
 
 import { prisma } from "@/lib/prisma"
 
-
+// recherche les users avec pagination
 export async function GET(request : Request) {
     try{
 
-        const url= new URL(request.url)
-        const page = parseInt(url.searchParams.get("page") || '1', 10)
+        const url= new URL(request.url)       
+         const page = parseInt(url.searchParams.get("page") || '1', 10)
+
         const pageSize = parseInt(url.searchParams.get("pageSize") || '10', 10)
 
 
