@@ -1,5 +1,39 @@
 import { prisma } from "@/lib/prisma";
 
+export async function GET(request: Request, { params }: { params: { id: string } }) {
+    const { id } = params;
+    try {
+        const event = await prisma.event.findUnique({
+            where: {
+                event_id: id,
+            },
+            include: {
+                tickets: true,
+            },
+        });
+
+        if (!event) {
+            return new Response(JSON.stringify({ error: "Event not found" }), {
+                status: 404,
+                headers: { 'Content-Type': 'application/json' },
+            });
+        }
+
+        return new Response(JSON.stringify(event), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        });
+    } catch (error) {
+        console.error("Error fetching event:", error);
+        return new Response(JSON.stringify({ error: "Failed to fetch event" }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+        });
+    } finally {
+        await prisma.$disconnect();
+    }
+}
+
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
     console.log(request);
     try {
@@ -43,32 +77,6 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         await prisma.$disconnect()
     }
 }
-
-// mande 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-
-
-    const { id } = params
-    try {
-        const event = await prisma.event.findUnique({
-            where: {
-                event_id: id
-            }
-        })
-
-
-        return new Response(JSON.stringify(event), { status: 200, headers: { 'Content-Type': 'application/json' } })
-    }
-    catch (error) {
-        console.error("error fetching datas", error)
-        return new Response(JSON.stringify({ error: "Repository Error" }), { status: 500 })
-
-    }
-    finally {
-        prisma.$disconnect()
-    }
-}
-
 
 export async function DELETE(params: string) {
     try {
