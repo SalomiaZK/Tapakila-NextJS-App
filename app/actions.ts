@@ -3,10 +3,45 @@
 import { prisma } from "@/lib/prisma";
 import { Type } from "@prisma/client";
 
-// acheter un ou beaucoup de ticket
+export async function getEvents() {
+    try {
+        const response = await fetch("/api/events", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        if (!response.ok) {
+            throw new Error("Failed to fetch events");
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching events:", error);
+        throw error;
+    }
+}
+
+export async function getEventById(eventId: string) {
+    try {
+        const response = await fetch(`/api/events/${eventId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        if (!response.ok) {
+            throw new Error("Failed to fetch event");
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching event:", error);
+        throw error;
+    }
+}
+
 export async function BookATicket({ data }: { data: { userId: string, ticketNumber: number, requestType: "CANCEL" | "BOOK", ticketType: Type } }) {
     try {
-        const { userId, ticketNumber, ticketType, requestType /**CANCEL | BOOK */ } = data
+        const { userId, ticketNumber, ticketType, requestType } = data
 
 
         if (requestType == "BOOK") {
@@ -72,5 +107,4 @@ export async function BookATicket({ data }: { data: { userId: string, ticketNumb
     } finally {
         await prisma.$disconnect()
     }
-
 }

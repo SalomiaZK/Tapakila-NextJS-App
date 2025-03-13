@@ -1,10 +1,6 @@
+import { prisma } from "@/lib/prisma";
 import { Status, Type } from "@prisma/client";
 
-import { prisma } from "@/lib/prisma"
-
-// mande
-
-// obtient le nombre de tickets vendu/ le nombre de tickets vendu pour un evenement specifique par type
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
@@ -13,7 +9,6 @@ export async function GET(request: Request) {
     const type = url.searchParams.get('type');
 
     if (id || status || type) {
-      // Récupérer les tickets en fonction des query params
       const tickets = await prisma.ticket.findMany({
         where: {
           event_id: String(id),
@@ -44,28 +39,7 @@ export async function GET(request: Request) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //  ========== ADMIN ==========
-
-// on n'a pas le droit de supprimer un ticket vendu a moins que l'evenement soit annulé
 export async function DELETE(request: Request) {
   try {
     const { ticketNumber } = await request.json()
@@ -76,7 +50,6 @@ export async function DELETE(request: Request) {
       }
     })
 
-
     const deleteTickets = await prisma.ticket.deleteMany({
       where: {
         ticket_id: {
@@ -85,19 +58,18 @@ export async function DELETE(request: Request) {
       }
     })
 
-    return new Response(JSON.stringify(deleteTickets), { status: 200 })
+    return new Response(JSON.stringify(deleteTickets), { status: 200 });
+
   } catch (e) {
     console.error("Error while deleting the ticket", e)
     return new Response(JSON.stringify({ error: "Repository error" }),
       { status: 500 }
-    )
+    );
 
-
-  }finally{
-    await prisma.$disconnect()
+  } finally {
+    await prisma.$disconnect();
   }
 }
-
 
 export async function POST(request: Request) {
   try {
@@ -124,12 +96,9 @@ export async function POST(request: Request) {
           event_id: idEvent,
           ticket_type: ticket_type,
           ticket_price: ticketPrice
-
         }
       })
     }
-
-
 
     return new Response(JSON.stringify({ created: created }), { status: 201 })
 
@@ -138,11 +107,7 @@ export async function POST(request: Request) {
     return new Response(JSON.stringify({ error: "Repository erro" }),
       { status: 500 }
     )
-  }finally{
+  } finally {
     await prisma.$disconnect()
   }
-
-
 }
-
-

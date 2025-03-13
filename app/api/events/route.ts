@@ -1,6 +1,4 @@
-
 import { prisma } from "@/lib/prisma";
-
 
 export async function GET() {
     const events = await prisma.event.findMany(
@@ -26,7 +24,7 @@ export async function POST(request: Request) {
                     event_image,
                     event_organizer,
                     event_id,
-                    admin_id// replace 'defaultAdmin' with the appropriate value
+                    admin_id
                 }
 
             })
@@ -47,77 +45,3 @@ export async function POST(request: Request) {
         await prisma.$disconnect()
     }
 }
-
-/**import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
-
-export async function POST(request) {
-  try {
-    // Récupérez les données du corps de la requête
-    const body = await request.json();
-    const { name, locationId, adminId } = body;
-
-    // Validez les données (exemple simple)
-    if (!name || !locationId || !adminId) {
-      return new Response(JSON.stringify({ error: 'Tous les champs sont obligatoires' }), {
-        status: 400, // Bad Request
-      });
-    }
-
-    // Créez un nouvel événement dans la base de données
-    const newEvent = await prisma.event.create({
-      data: {
-        name,
-        location: { connect: { id: locationId } }, // Liez l'événement à un lieu existant
-        admin: { connect: { id: adminId } }, // Liez l'événement à un administrateur existant
-      },   
-
-      include: {
-        location: true, // Incluez les informations du lieu dans la réponse
-        admin: true, // Incluez les informations de l'administrateur dans la réponse
-      },
-    });
-
-    // Retournez la réponse avec le nouvel événement créé
-    return new Response(JSON.stringify(newEvent), {
-      status: 201, // Created
-    });
-  } catch (error) {
-    console.error('Erreur lors de la création de l\'événement :', error);
-    return new Response(JSON.stringify({ error: 'Erreur de base de données' }), {
-      status: 500, // Internal Server Error
-    });
-  } finally {
-    await prisma.$disconnect();
-  }
-} */
-
-
-/**import { PrismaClient } from '@prisma/client';
-import { NextResponse } from 'next/server';
-
-const prisma = new PrismaClient();
-
-export async function GET() {
-    try {
-        const events = await prisma.event.findMany({
-            include: {
-                tickets: true,
-            },
-        });
-
-        const validStatuses = ['AVAILABLE','RESERVED', 'SOLD'];
-        const validatedEvents = events.map(event => ({
-            ...event,
-            tickets: event.tickets.map(ticket => ({
-                ...ticket,
-                ticket_status: validStatuses.includes(ticket.ticket_status) ? ticket.ticket_status : 'AVAILABLE',
-            })),
-        }));
-
-        return NextResponse.json(validatedEvents);
-    } catch (error) {
-        return NextResponse.json({ error: 'Failed to fetch events' }, { status: 500 });
-    }
-}*/
