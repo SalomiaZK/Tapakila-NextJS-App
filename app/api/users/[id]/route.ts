@@ -59,7 +59,7 @@ export async function PUT(request : Request, {params}: {params: Promise<{id: str
 }
 
 
-// ============ ADMIN============
+// ============ ADMIN============ : only admin can delete user or the user itself
 export async function DELETE(request : Request , {params}: {params :Promise<{id: string}>}){
     try{
 
