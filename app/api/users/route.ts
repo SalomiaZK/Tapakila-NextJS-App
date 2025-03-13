@@ -1,14 +1,12 @@
 import { prisma } from "@/lib/prisma";
 import { randomUUID } from "crypto";
 
-
 export async function GET(request: Request) {
     try {
 
         const url = new URL(request.url)
         const page = parseInt(url.searchParams.get("page") || '1', 10)
         const pageSize = parseInt(url.searchParams.get("pageSize") || '10', 10)
-
 
         const offset = (page - 1) * pageSize
         const users = await prisma.user.findMany({
@@ -37,9 +35,6 @@ export async function POST(request: Request) {
             return new Response(JSON.stringify({ error: "Missing required fields" }), { status: 400 });
         }
 
-
-
-
         const number = "USR" + randomUUID().split("-")[0]
         const userId = number.toString().padStart(4, "0")
 
@@ -53,7 +48,6 @@ export async function POST(request: Request) {
             }
         });
         return new Response(JSON.stringify(newUser), { status: 201 });
-
 
     } catch (error) {
         console.error("Error while creating the event", error)
