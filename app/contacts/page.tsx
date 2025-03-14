@@ -102,7 +102,7 @@ export default function ContactPage() {
                     {status && (
                         <p
                             className={`text-center mt-4 ${
-                                status.type === "success" ? "text-menthe" : "text-red-500"
+                                status.type === "success" ? "text-green-500" : "text-red-500"
                             }`}
                         >
                             {status.message}
