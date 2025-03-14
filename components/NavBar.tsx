@@ -133,7 +133,7 @@ export default function Navbar() {
                             Événements
                         </Link>
                         <Link
-                            href="/contacts"
+                            href="/contact"
                             className="text-blancCasse hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r from-bleuElec to-orMetallique transition-all duration-300 hover-neon underline-uncurved"
                         >
                             Contact

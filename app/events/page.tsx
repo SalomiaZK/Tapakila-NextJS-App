@@ -21,7 +21,7 @@ export default function EventsPage() {
                 const formattedEvents = rawEvents.map((event: any) => ({
                     id: event.event_id,
                     name: event.event_name,
-                    date: event.event_date.toISOString(),
+                    date: new Date(event.event_date).toISOString(),
                     location: event.event_place,
                     description: event.event_description,
                     imageUrl: event.event_image,
