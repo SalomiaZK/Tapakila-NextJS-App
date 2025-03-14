@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     }
     catch (error) {
         console.error("Error while creating the event", error)
-        return new Response(JSON.stringify({ error: "Repository erro" }),
+        return new Response(JSON.stringify({ error: "Repository error" }),
             { status: 500 }
         )
     }
