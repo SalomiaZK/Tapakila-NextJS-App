@@ -45,6 +45,7 @@ const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async jwt({ token, user }: { token: JWT; user?: any }) {
       if (user) {
+        token.id = user.id;
         token.name = user.name;
         token.email = user.email;
       }
