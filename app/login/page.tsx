@@ -45,7 +45,7 @@ const LoginPage = () => {
 
             localStorage.setItem("user", JSON.stringify(data.user));
             localStorage.removeItem("previousUser");
-            window.location.href = "/profile";
+            window.location.href = "/dashboard/profile";
         } catch {
             setErrorMessage("Erreur lors de la connexion");
         }

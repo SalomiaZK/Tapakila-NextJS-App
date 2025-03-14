@@ -1,95 +1,92 @@
 import { prisma } from "@/lib/prisma"
 
-
-export async function GET(request: Request, {params} : {params: Promise<{id: string}>}){
-    try{
-        const {id} = await params
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    try {
+        const { id } = await params
         const user = await prisma.user.findUnique({
             where: {
                 user_id: id
             }
         })
-        return new Response(JSON.stringify(user), {status: 200, headers: {'Content-Type': 'application/json'}})
+        return new Response(JSON.stringify(user), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }
     catch (e) {
         console.error("Error finding the user ", e)
         return new Response(JSON.stringify({ error: "Repository erro" }),
-          { status: 500 }
+            { status: 500 }
         )
-      }finally{
+    } finally {
         await prisma.$disconnect()
-      }
+    }
 }
 
-export async function PUT(request : Request, {params}: {params: Promise<{id: string}>}) {
-    try{
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    try {
         const body = await request.json()
-        const {id} = await params
+        const { id } = await params
         const userToUpdate = await prisma.user.findUnique({
-            where:{
+            where: {
                 user_id: id
             }
         })
 
-        if(userToUpdate == null){
-            return new Response(JSON.stringify({error: "User not found"}), {status: 404})
+        if (userToUpdate == null) {
+            return new Response(JSON.stringify({ error: "User not found" }), { status: 404 })
         }
-        else{
+        else {
             const updatedUser = await prisma.user.update({
-                where:{
+                where: {
                     user_id: userToUpdate.user_id
                 },
                 data: body
 
-                
             })
 
-            return new Response(JSON.stringify(updatedUser), {status: 200} )
+            return new Response(JSON.stringify(updatedUser), { status: 200 })
         }
-    }catch (e) {
+    } catch (e) {
         console.error("Error while deleting the user", e)
         return new Response(JSON.stringify({ error: "Repository error" }),
-          { status: 500 }
+            { status: 500 }
         )
-    
-    
-      }finally{
+
+    } finally {
         await prisma.$disconnect()
-      }
+    }
 }
 
 
 // ============ ADMIN============ : only admin can delete user or the user itself
-export async function DELETE(request : Request , {params}: {params :Promise<{id: string}>}){
-    try{
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    try {
 
-        const {id} = await params
+        const { id } = await params
         const userToDelete = await prisma.user.findUnique({
-            where:{
+            where: {
                 user_id: id
             }
         })
 
-        if(userToDelete == null){
-            return new Response(JSON.stringify({error: "User not found"}), {status: 404})
+        if (userToDelete == null) {
+            return new Response(JSON.stringify({ error: "User not found" }), { status: 404 })
         }
-        else{
+        else {
             const userDeleted = await prisma.user.delete({
-                where:{
+                where: {
                     user_id: userToDelete.user_id
                 }
             })
 
-            return new Response(JSON.stringify(userDeleted), {status: 200} )
+            return new Response(JSON.stringify(userDeleted), { status: 200 })
         }
-    }catch (e) {
+    } catch (e) {
         console.error("Error while deleting the user", e)
         return new Response(JSON.stringify({ error: "Repository error" }),
-          { status: 500 }
+            { status: 500 }
         )
-    
-    
-      }finally{
+
+
+    } finally {
         await prisma.$disconnect()
-      }
+    }
 }
