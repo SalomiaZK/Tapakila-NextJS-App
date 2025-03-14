@@ -1,13 +1,12 @@
-import { NextResponse } from 'next/server';
-import {prisma} from "@/lib/prisma"
+import { prisma } from "@/lib/prisma";
 export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
 
     const user = await prisma.user.findUnique({
-      where: { 
+      where: {
         user_email: email
-       },
+      },
     });
 
     if (!user) {

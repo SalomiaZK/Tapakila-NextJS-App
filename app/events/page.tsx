@@ -1,6 +1,5 @@
 "use client";
 
-import { getEvents } from "@/app/actions";
 import EventCard from "@/components/EventCard";
 import { useEventStore } from "@/stores/eventStore";
 import { useSearchParams } from "next/navigation";
@@ -13,17 +12,25 @@ export default function EventsPage() {
 
     useEffect(() => {
         async function fetchEvents() {
-            const rawEvents = await getEvents();
-            const formattedEvents = rawEvents.map((event: any) => ({
-                id: event.event_id,
-                name: event.event_name,
-                date: event.event_date.toISOString(),
-                location: event.event_place,
-                description: event.event_description,
-                imageUrl: event.event_image,
-                category: event.event_category || "Autres",
-            }));
-            setEvents(formattedEvents);
+            try {
+                const response = await fetch("/api/events");
+                if (!response.ok) {
+                    throw new Error("Erreur lors du chargement des événements");
+                }
+                const rawEvents = await response.json();
+                const formattedEvents = rawEvents.map((event: any) => ({
+                    id: event.event_id,
+                    name: event.event_name,
+                    date: event.event_date.toISOString(),
+                    location: event.event_place,
+                    description: event.event_description,
+                    imageUrl: event.event_image,
+                    category: event.event_category || "Autres",
+                }));
+                setEvents(formattedEvents);
+            } catch (error) {
+                console.error(error);
+            }
         }
         fetchEvents();
     }, [setEvents]);

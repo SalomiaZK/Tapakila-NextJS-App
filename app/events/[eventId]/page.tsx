@@ -1,6 +1,5 @@
 "use client";
 
-import { getEventById } from "@/app/actions";
 import TicketTable from "@/components/TicketTable";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -13,8 +12,16 @@ export default function EventPage({ params }: { params: { eventId: string } }) {
 
     useEffect(() => {
         async function fetchEvent() {
-            const eventData = await getEventById(eventId);
-            setEvent(eventData);
+            try {
+                const response = await fetch(`/api/events/${eventId}`);
+                if (!response.ok) {
+                    throw new Error("Événement non trouvé");
+                }
+                const eventData = await response.json();
+                setEvent(eventData);
+            } catch (error) {
+                console.error(error);
+            }
         }
         fetchEvent();
     }, [eventId]);

@@ -1,12 +1,21 @@
 "user server";
 
 import { prisma } from "@/lib/prisma";
+import { neon } from "@neondatabase/serverless";
 import { Type } from "@prisma/client";
 
-// acheter un ou beaucoup de ticket
+export async function getData() {
+    if (!process.env.DATABASE_URL) {
+        throw new Error("DATABASE_URL is not defined");
+    }
+    const sql = neon(process.env.DATABASE_URL);
+    const data = await sql`...`;
+    return data;
+}
+
 export async function BookATicket({ data }: { data: { userId: string, ticketNumber: number, requestType: "CANCEL" | "BOOK", ticketType: Type } }) {
     try {
-        const { userId, ticketNumber, ticketType, requestType /**CANCEL | BOOK */ } = data
+        const { userId, ticketNumber, ticketType, requestType } = data
 
 
         if (requestType == "BOOK") {
@@ -72,5 +81,4 @@ export async function BookATicket({ data }: { data: { userId: string, ticketNumb
     } finally {
         await prisma.$disconnect()
     }
-
 }
