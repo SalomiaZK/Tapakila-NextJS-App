@@ -50,6 +50,10 @@ export async function GET(request: Request) {
         const messages = await prisma.message.findMany({
            take: pageSize,
               skip: (page - 1) * pageSize,
+
+              include :{
+                user: true
+              }
         });
 
         return Response.json(messages, { status: 200 });
