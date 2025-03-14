@@ -6,6 +6,9 @@ export async function GET(request: Request, {params} : {params: Promise<{id: str
         const message = await prisma.message.findUnique({
             where: {
                 message_id: id
+            },
+            include:{
+                user: true
             }
         })
 
