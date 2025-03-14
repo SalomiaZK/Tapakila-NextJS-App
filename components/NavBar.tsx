@@ -47,7 +47,7 @@ export default function Navbar() {
                         <Link href="/">
                             <Image
                                 src="/img/tapakila.png"
-                                alt="Logo Diamond Blue"
+                                alt="Tapakila App Logo"
                                 width={200}
                                 height={200}
                                 className="rounded-full hover:scale-110 transition-all duration-500 ease-in-out transform object-cover w-16 h-16"
