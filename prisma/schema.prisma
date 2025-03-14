@@ -33,8 +33,9 @@ model User{
   user_name String
   user_email String @unique
   user_password String
-  
+  user_image String
   tickets Ticket[]
+  messages Message[]
 }
 
 model Event{
@@ -62,4 +63,13 @@ model  Ticket{
   user User? @relation(fields: [user_id], references: [user_id])
   event_id String
   event Event @relation(fields: [event_id], references: [event_id])
+}
+
+model Message{
+  message_id String @id
+  message_subject String
+  message_content String
+  message_date DateTime
+  user_id String
+  user User @relation(fields: [user_id], references: [user_id])
 }
