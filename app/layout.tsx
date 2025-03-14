@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/NavBar";
 import "@/styles/globals.css";
+import { Analytics } from '@vercel/analytics/next';
 import { Poppins } from "next/font/google";
 import { ReactNode } from "react";
 
@@ -23,7 +24,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <div>
           <Navbar />
-          <main className="pt-0">{children}</main>
+          <main className="pt-0">
+            {children}
+            <Analytics />
+          </main>
           <Footer />
         </div>
       </body>
