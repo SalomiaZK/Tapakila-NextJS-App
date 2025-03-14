@@ -13,12 +13,6 @@ const LoginPage = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const existingUser = JSON.parse(localStorage.getItem("user") || "{}");
-        if (existingUser && existingUser.email) {
-            localStorage.setItem("previousUser", JSON.stringify(existingUser));
-            localStorage.removeItem("user");
-        }
-
         try {
             const res = await fetch("/api/auth/login", {
                 method: "POST",
@@ -35,16 +29,7 @@ const LoginPage = () => {
             }
 
             const data = await res.json();
-
-            const modifiedUser = JSON.parse(localStorage.getItem("modifiedUser") || "{}");
-            if (modifiedUser.email === email) {
-                localStorage.setItem("user", JSON.stringify(modifiedUser));
-            } else {
-                localStorage.setItem("user", JSON.stringify(data.user));
-            }
-
             localStorage.setItem("user", JSON.stringify(data.user));
-            localStorage.removeItem("previousUser");
             window.location.href = "/dashboard/profile";
         } catch {
             setErrorMessage("Erreur lors de la connexion");

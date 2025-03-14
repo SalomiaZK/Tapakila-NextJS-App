@@ -1,10 +1,11 @@
+// ./components/Navbar.tsx
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaBars, FaSearch, FaTimes, FaUser } from "react-icons/fa";
+import { FaBars, FaSearch, FaSignOutAlt, FaTimes, FaUser } from "react-icons/fa";
 
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -12,6 +13,8 @@ export default function Navbar() {
     const [searchValue, setSearchValue] = useState("");
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userName, setUserName] = useState<string | null>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -27,11 +30,26 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("user") || "null");
+        if (user) {
+            setIsLoggedIn(true);
+            setUserName(user.name);
+        }
+    }, []);
+
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (searchValue.trim()) {
             router.push(`/events?search=${encodeURIComponent(searchValue)}`);
         }
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("user");
+        setIsLoggedIn(false);
+        setUserName(null);
+        router.push("/login");
     };
 
     return (
@@ -120,13 +138,31 @@ export default function Navbar() {
                         >
                             Contact
                         </Link>
-                        <Link
-                            href="/login"
-                            className="glowing-button flex items-center text-blancCasse hover:text-bleuNuit px-4 py-2"
-                        >
-                            <FaUser className="mr-2" />
-                            Se Connecter
-                        </Link>
+                        {isLoggedIn ? (
+                            <div className="flex items-center space-x-4">
+                                <span className="text-blancCasse">{userName}</span>
+                                <Link
+                                    href="/dashboard/profile"
+                                    className="glowing-button flex items-center text-blancCasse hover:text-bleuNuit px-4 py-2"
+                                >
+                                    <FaUser className="mr-2" />
+                                </Link>
+                                <button
+                                    onClick={handleLogout}
+                                    className="glowing-button flex items-center text-blancCasse hover:text-bleuNuit px-4 py-2"
+                                >
+                                    <FaSignOutAlt className="mr-2" />
+                                </button>
+                            </div>
+                        ) : (
+                            <Link
+                                href="/login"
+                                className="glowing-button flex items-center text-blancCasse hover:text-bleuNuit px-4 py-2"
+                            >
+                                <FaUser className="mr-2" />
+                                Se Connecter
+                            </Link>
+                        )}
                     </div>
                 </div>
 
@@ -174,13 +210,32 @@ export default function Navbar() {
                             >
                                 Contacts
                             </Link>
-                            <Link
-                                href="/login"
-                                className="glowing-button flex items-center justify-center text-blancCasse hover:text-bleuNuit px-4 py-2"
-                            >
-                                <FaUser className="mr-2" />
-                                Se Connecter
-                            </Link>
+                            {isLoggedIn ? (
+                                <div className="flex flex-col space-y-4">
+                                    <Link
+                                        href="/dashboard/profile"
+                                        className="glowing-button flex items-center justify-center text-blancCasse hover:text-bleuNuit px-4 py-2"
+                                    >
+                                        <FaUser className="mr-2" />
+                                        Profil
+                                    </Link>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="glowing-button flex items-center justify-center text-blancCasse hover:text-bleuNuit px-4 py-2"
+                                    >
+                                        <FaSignOutAlt className="mr-2" />
+                                        Déconnexion
+                                    </button>
+                                </div>
+                            ) : (
+                                <Link
+                                    href="/login"
+                                    className="glowing-button flex items-center justify-center text-blancCasse hover:text-bleuNuit px-4 py-2"
+                                >
+                                    <FaUser className="mr-2" />
+                                    Se Connecter
+                                </Link>
+                            )}
                         </div>
                     </div>
                 )}

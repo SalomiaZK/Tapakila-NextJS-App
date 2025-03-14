@@ -19,7 +19,7 @@ export async function GET(request: Request) {
 
     catch (error) {
         console.error("Error while fetching data", error)
-        return new Response(JSON.stringify({ error: "Repository erro" }),
+        return new Response(JSON.stringify({ error: "Repository error" }),
             { status: 500 }
         )
     } finally {

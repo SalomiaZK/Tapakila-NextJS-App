@@ -2,6 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface User {
     user_id: string;
@@ -21,14 +23,16 @@ const ProfilePage = () => {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const response = await fetch("/api/users/update");
+                const response = await fetch("/api/users");
                 if (!response.ok) {
                     throw new Error("Failed to fetch user profile");
                 }
                 const data = await response.json();
                 setUser(data);
+                toast.success("Connexion réussie !", { autoClose: 3000 });
             } catch (error) {
                 console.error("Error fetching user profile:", error);
+                toast.error("Erreur lors du chargement du profil.", { autoClose: 3000 });
             }
         };
 
@@ -36,47 +40,74 @@ const ProfilePage = () => {
     }, []);
 
     if (!user) {
-        return <div>Loading...</div>;
+        return (
+            <div
+                className="min-h-screen flex items-center justify-center bg-cover bg-center"
+                style={{ backgroundImage: "url('/img/bgProfile.jpg')" }}
+            >
+                <div className="text-white text-2xl font-bold">Chargement en cours...</div>
+            </div>
+        );
     }
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Profile</h1>
-            <div className="space-y-4">
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Nom et Prénom</label>
-                    <p className="mt-1">{user.user_name}</p>
+        <div
+            className="min-h-screen p-6 bg-cover bg-center py-40"
+            style={{ backgroundImage: "url('/img/bgProfile.jpg')" }}
+        >
+            <ToastContainer />
+            <div className="max-w-4xl mx-auto bg-gray-900 bg-opacity-70 p-8 rounded-lg shadow-lg">
+                <h1 className="text-3xl font-bold mb-6 text-center text-blancCasse">Profil</h1>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-7">
+                        <div>
+                            <label className="block text-sm font-medium text-orMetallique">Nom et Prénom</label>
+                            <p className="mt-1 text-lg text-blancCasse">{user.user_name}</p>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-orMetallique">Email</label>
+                            <p className="mt-1 text-lg text-blancCasse">{user.user_email}</p>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-orMetallique">Date d'adhésion</label>
+                            <p className="mt-1 text-lg text-blancCasse">
+                                {new Date(user.date_joined).toLocaleDateString()}
+                            </p>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-orMetallique">Ville</label>
+                            <p className="mt-1 text-lg text-blancCasse">{user.city}</p>
+                        </div>
+                    </div>
+                    <div className="space-y-7 text-right">
+                        <div>
+                            <label className="block text-sm font-medium text-orMetallique">Pays</label>
+                            <p className="mt-1 text-lg text-blancCasse">{user.country}</p>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-orMetallique">Code Postal</label>
+                            <p className="mt-1 text-lg text-blancCasse">{user.postal_code}</p>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-orMetallique">Adresse</label>
+                            <p className="mt-1 text-lg text-blancCasse">{user.address}</p>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Email</label>
-                    <p className="mt-1">{user.user_email}</p>
+                <div className="mt-8 flex justify-center space-x-7">
+                    <button
+                        onClick={() => router.push("/dashboard/profile/update")}
+                        className="px-6 py-3 bg-bleuElec text-blancCasse rounded-lg hover:bg-bleuNuit hover:text-orMetallique transition duration-300"
+                    >
+                        Mettre à jour le profil
+                    </button>
+                    <button
+                        onClick={() => router.push("/")}
+                        className="px-6 py-3 bg-bleuElec text-blancCasse rounded-lg hover:bg-bleuNuit hover:text-orMetallique transition duration-300"
+                    >
+                        Retour à l'accueil
+                    </button>
                 </div>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Date d'adhésion</label>
-                    <p className="mt-1">{new Date(user.date_joined).toLocaleDateString()}</p>
-                </div>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Ville</label>
-                    <p className="mt-1">{user.city}</p>
-                </div>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Code Postal</label>
-                    <p className="mt-1">{user.postal_code}</p>
-                </div>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Pays</label>
-                    <p className="mt-1">{user.country}</p>
-                </div>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Adresse</label>
-                    <p className="mt-1">{user.address}</p>
-                </div>
-                <button
-                    onClick={() => router.push("/dashboard/profile/update")}
-                    className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                    Mettre à jour le profil
-                </button>
             </div>
         </div>
     );

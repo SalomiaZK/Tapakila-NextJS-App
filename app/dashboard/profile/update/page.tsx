@@ -2,6 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface User {
     user_id: string;
@@ -28,7 +30,7 @@ const UpdateProfilePage = () => {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const response = await fetch("/api/users/update");
+                const response = await fetch("/api/users");
                 if (!response.ok) {
                     throw new Error("Failed to fetch user profile");
                 }
@@ -43,6 +45,7 @@ const UpdateProfilePage = () => {
                 });
             } catch (error) {
                 console.error("Error fetching user profile:", error);
+                toast.error("Erreur lors du chargement du profil.", { autoClose: 3000 });
             }
         };
 
@@ -72,77 +75,107 @@ const UpdateProfilePage = () => {
                 throw new Error("Failed to update profile");
             }
 
-            router.push("/dashboard/profile");
+            toast.success("Profil mis à jour avec succès !", { autoClose: 3000 });
+            setTimeout(() => {
+                router.push("/dashboard/profile");
+            }, 1500);
         } catch (error) {
             console.error("Error updating profile:", error);
+            toast.error("Erreur lors de la mise à jour du profil.", { autoClose: 3000 });
         }
     };
 
+    const handleCancel = () => {
+        router.push("/dashboard/profile");
+    };
+
     if (!user) {
-        return <div>Loading...</div>;
+        return (
+            <div
+                className="min-h-screen flex items-center justify-center bg-cover bg-center"
+                style={{ backgroundImage: "url('/img/bgProfileUpdate.jpg')" }}
+            >
+                <div className="text-white text-2xl font-bold">Chargement en cours...</div>
+            </div>
+        );
     }
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Mettre à jour le profil</h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Nom et Prénom</label>
-                    <input
-                        type="text"
-                        name="user_name"
-                        value={formData.user_name}
-                        onChange={handleChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
-                </div>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Ville</label>
-                    <input
-                        type="text"
-                        name="city"
-                        value={formData.city}
-                        onChange={handleChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
-                </div>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Code Postal</label>
-                    <input
-                        type="text"
-                        name="postal_code"
-                        value={formData.postal_code}
-                        onChange={handleChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
-                </div>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Pays</label>
-                    <input
-                        type="text"
-                        name="country"
-                        value={formData.country}
-                        onChange={handleChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
-                </div>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Adresse</label>
-                    <input
-                        type="text"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
-                </div>
-                <button
-                    type="submit"
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                    Enregistrer les modifications
-                </button>
-            </form>
+        <div
+            className="min-h-screen p-6 bg-cover bg-center py-36"
+            style={{ backgroundImage: "url('/img/bgProfileUpdate.jpg')" }}
+        >
+            <ToastContainer />
+            <div className="max-w-lg mx-auto bg-gray-900 bg-opacity-70 p-8 rounded-xl shadow-xl">
+                <h1 className="text-3xl font-bold mb-6 text-center text-blancCasse">Mettre à jour le profil</h1>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <label className="block text-sm font-medium text-orMetallique">Nom et Prénom</label>
+                        <input
+                            type="text"
+                            name="user_name"
+                            value={formData.user_name}
+                            onChange={handleChange}
+                            className="mt-1 block w-full px-4 py-2 bg-bleuNuit border border-gray-700 rounded-lg shadow-sm focus:outline-none focus:ring-bleuElec focus:border-bleuElec"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-orMetallique">Ville</label>
+                        <input
+                            type="text"
+                            name="city"
+                            value={formData.city}
+                            onChange={handleChange}
+                            className="mt-1 block w-full px-4 py-2 bg-bleuNuit border border-gray-700 rounded-lg shadow-sm focus:outline-none focus:ring-bleuElec focus:border-bleuElec"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-orMetallique">Code Postal</label>
+                        <input
+                            type="text"
+                            name="postal_code"
+                            value={formData.postal_code}
+                            onChange={handleChange}
+                            className="mt-1 block w-full px-4 py-2 bg-bleuNuit border border-gray-700 rounded-lg shadow-sm focus:outline-none focus:ring-bleuElec focus:border-bleuElec"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-orMetallique">Pays</label>
+                        <input
+                            type="text"
+                            name="country"
+                            value={formData.country}
+                            onChange={handleChange}
+                            className="mt-1 block w-full px-4 py-2 bg-bleuNuit border border-gray-700 rounded-lg shadow-sm focus:outline-none focus:ring-bleuElec focus:border-bleuElec"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-orMetallique">Adresse</label>
+                        <input
+                            type="text"
+                            name="address"
+                            value={formData.address}
+                            onChange={handleChange}
+                            className="mt-1 block w-full px-4 py-2 bg-bleuNuit border border-gray-700 rounded-lg shadow-sm focus:outline-none focus:ring-bleuElec focus:border-bleuElec"
+                        />
+                    </div>
+                    <div className="flex space-x-4">
+                        <button
+                            type="submit"
+                            className="w-full px-6 py-3 bg-bleuElec text-blancCasse rounded-xl hover:bg-bleuNuit hover:text-orMetallique transition duration-300"
+                        >
+                            Enregistrer
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleCancel}
+                            className="w-full px-6 py-3 bg-bleuElec text-blancCasse rounded-xl hover:bg-bleuNuit hover:text-orMetallique transition duration-300"
+                        >
+                            Annuler
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };
