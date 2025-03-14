@@ -23,7 +23,7 @@ export async function POST(request: Request) {
                 message_date: new Date(),
                 message_content: message,
                 message_subject: subject,
-                user_id: user_id,// alaina any amin'ny session manao session.user.id de alefa any amin'ny  body an'ny requete post
+                user_id: user_id,
             },
         })
 
