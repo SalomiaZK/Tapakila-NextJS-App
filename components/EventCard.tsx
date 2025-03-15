@@ -19,7 +19,7 @@ export default function EventCard({
     imageUrl,
 }: EventCardProps) {
     return (
-        <div className="bg-blancCasse rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+        <div className="bg-blancGlacialNeutre rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
             <img src={imageUrl} alt={name} className="w-full h-52 object-cover" />
             <div className="p-4">
                 <h3 className="text-xl font-bold text-bleuNuit">{name}</h3>
