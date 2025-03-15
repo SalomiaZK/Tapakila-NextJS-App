@@ -28,6 +28,7 @@ export async function POST(request: Request) {
         })
 
         return Response.json(content, { status: 201 });
+
     } catch (error) {
         console.error('Error while sending the review:', error);
         return Response.json({ error: 'Erreur serveur.' }, { status: 500 });
@@ -42,15 +43,14 @@ export async function GET(request: Request) {
         const page = parseInt(url.searchParams.get('page') || '1', 10);
         const pageSize = parseInt(url.searchParams.get('pageSize') || '10', 10);
 
-        const messages = await prisma.message.findMany({
-           take: pageSize,
-              skip: (page - 1) * pageSize,
 
-              include :{
-                user: true
-              }
+        const messages = await prisma.message.findMany({
             take: pageSize,
             skip: (page - 1) * pageSize,
+
+            include: {
+                user: true
+            }
         });
 
         return Response.json(messages, { status: 200 });
@@ -60,4 +60,5 @@ export async function GET(request: Request) {
     } finally {
         await prisma.$disconnect()
     }
+
 }
