@@ -43,6 +43,12 @@ export async function GET(request: Request) {
         const pageSize = parseInt(url.searchParams.get('pageSize') || '10', 10);
 
         const messages = await prisma.message.findMany({
+           take: pageSize,
+              skip: (page - 1) * pageSize,
+
+              include :{
+                user: true
+              }
             take: pageSize,
             skip: (page - 1) * pageSize,
         });
