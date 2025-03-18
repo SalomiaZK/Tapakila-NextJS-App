@@ -1,17 +1,17 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaEnvelope } from "react-icons/fa";
 import { FaFacebook, FaInstagram, FaLinkedinIn, FaPhone } from 'react-icons/fa6';
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({
-        name: "",
-        email: "",
         subject: "",
         message: "",
     });
     const [status, setStatus] = useState<{ message: string; type: "success" | "error" } | null>(null);
+    const router = useRouter();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -21,13 +21,28 @@ export default function ContactPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        // Récupérer l'utilisateur connecté depuis localStorage
+        const storedUser = localStorage.getItem("user");
+        if (!storedUser) {
+            setStatus({ message: "Vous devez être connecté pour envoyer un message.", type: "error" });
+            router.push("/login"); // Rediriger vers la page de connexion
+            return;
+        }
+
+        const user = JSON.parse(storedUser);
+        const user_id = user.user_id; // Récupérer l'ID de l'utilisateur
+
         try {
             const response = await fetch("/api/contact", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    user_id: user_id, // Ajouter l'ID de l'utilisateur
+                    subject: formData.subject,
+                    message: formData.message,
+                }),
             });
 
             const result = await response.json();
@@ -35,8 +50,6 @@ export default function ContactPage() {
             if (response.ok) {
                 setStatus({ message: "Message envoyé avec succès !", type: "success" });
                 setFormData({
-                    name: "",
-                    email: "",
                     subject: "",
                     message: "",
                 });
@@ -61,22 +74,6 @@ export default function ContactPage() {
                         Contactez-nous
                     </h1>
                     <form onSubmit={handleSubmit} className="space-y-6 text-blancCasse">
-                        <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            placeholder="Votre nom"
-                            className="w-full bg-bleuNuit p-4 border border-gray-700 rounded-md shadow-sm focus:ring-2 focus:ring-gray-700 focus:outline-none"
-                        />
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            placeholder="Votre e-mail"
-                            className="w-full bg-bleuNuit p-4 border border-gray-700 rounded-md shadow-sm focus:ring-2 focus:ring-gray-700 focus:outline-none"
-                        />
                         <input
                             type="text"
                             name="subject"
