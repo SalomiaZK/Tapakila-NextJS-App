@@ -39,6 +39,7 @@ model User{
   user_email String @unique
   user_password String
   user_image String
+  user_first_login_date DateTime
   tickets Ticket[]
   messages Message[]
 }
