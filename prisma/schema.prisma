@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,25 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Type{
-  VIP
-  STANDARD
-  EARLY_BIRD
-}
-
-enum Status{
-  AVAILABLE
-  SOLD
-}
-model Admin{
-  admin_id  String @id
-  admin_name String
-  admin_mail String @unique
+model Admin {
+  admin_id       String  @id
+  admin_name     String
+  admin_mail     String  @unique
   admin_password String
-
-  event Event[]
+  event          Event[]
 }
-
 
 model User{
   user_id String  @id
@@ -44,39 +26,48 @@ model User{
   messages Message[]
 }
 
-
-model Event{
-  event_id String @id
-  event_name String
-  event_date DateTime
-  event_place String
+model Event {
+  event_id          String   @id
+  event_name        String
+  event_date        DateTime
+  event_place       String
   event_description String
-  event_organizer String
-  event_image  String // url image
-  event_category String
-  // status : if date is passed, status is closed
-  tickets Ticket[]
-  admin_id String
-  admin Admin @relation(fields: [admin_id], references: [admin_id])
+  event_image       String
+  admin_id          String
+  event_organizer   String
+  event_category    String
+  admin             Admin    @relation(fields: [admin_id], references: [admin_id])
+  tickets           Ticket[]
 }
 
-
-model  Ticket{
-  ticket_id String @id
-  ticket_type Type
-  ticket_price Int
-  ticket_status Status // sold or not for the admin
-  user_id String?
-  user User? @relation(fields: [user_id], references: [user_id])
-  event_id String
-  event Event @relation(fields: [event_id], references: [event_id])
+model Ticket {
+  ticket_id     String  @id
+  ticket_type   Type
+  ticket_price  Int
+  ticket_status Status
+  user_id       String?
+  event_id      String
+  event         Event   @relation(fields: [event_id], references: [event_id])
+  user          User?   @relation(fields: [user_id], references: [user_id])
 }
 
-model Message{
-  message_id String @id
-  message_subject String
-  message_content String
-  message_date DateTime
-  user_id String
-  user User @relation(fields: [user_id], references: [user_id])
+model Message {
+  message_id      String    @id
+  message_subject String?
+  message_content String?
+  message_date    DateTime? @db.Timestamp(6)
+  user_id         String?
+  user            User?     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_message")
+}
+
+enum Type {
+  VIP
+  STANDARD
+  EARLY_BIRD
+}
+
+enum Status {
+  AVAILABLE
+  SOLD
+  RESERVED
 }
