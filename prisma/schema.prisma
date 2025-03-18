@@ -44,6 +44,7 @@ model User{
   messages Message[]
 }
 
+
 model Event{
   event_id String @id
   event_name String
