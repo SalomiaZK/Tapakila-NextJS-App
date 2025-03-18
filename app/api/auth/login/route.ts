@@ -19,7 +19,11 @@ export async function POST(req: NextRequest) {
         }
 
         return NextResponse.json({
-            user: { name: user.user_name, email: user.user_email },
+            user: {
+                name: user.user_name,
+                email: user.user_email,
+                /**date_joined: user.date_joined,*/
+            },
             message: "Connexion réussie.",
         });
     } catch (error) {

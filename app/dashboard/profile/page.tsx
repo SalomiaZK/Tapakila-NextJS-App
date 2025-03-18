@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface User {
@@ -21,23 +21,23 @@ const ProfilePage = () => {
     const router = useRouter();
 
     useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                const response = await fetch("/api/users");
-                if (!response.ok) {
-                    throw new Error("Failed to fetch user profile");
-                }
-                const data = await response.json();
-                setUser(data);
-                toast.success("Connexion réussie !", { autoClose: 3000 });
-            } catch (error) {
-                console.error("Error fetching user profile:", error);
-                toast.error("Erreur lors du chargement du profil.", { autoClose: 3000 });
-            }
-        };
-
-        fetchUserProfile();
-    }, []);
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setUser({
+                user_id: parsedUser.user_id || "",
+                user_name: parsedUser.name || "",
+                user_email: parsedUser.email || "",
+                date_joined: parsedUser.date_joined || new Date().toISOString(),
+                city: parsedUser.city || "",
+                postal_code: parsedUser.postal_code || "",
+                country: parsedUser.country || "",
+                address: parsedUser.address || "",
+            });
+        } else {
+            router.push("/login");
+        }
+    }, [router]);
 
     if (!user) {
         return (
