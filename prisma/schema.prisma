@@ -15,14 +15,15 @@ model Admin {
   event          Event[]
 }
 
-model User {
-  user_id       String    @id
-  user_name     String
-  user_email    String    @unique
+model User{
+  user_id String  @id
+  user_name String
+  user_email String @unique
   user_password String
-  user_image    String?   @default("https://cdn-icons-png.flaticon.com/512/3177/3177440.png")
-  messages      Message[]
-  tickets       Ticket[]
+  user_image  String?   @default("https://cdn-icons-png.flaticon.com/512/3177/3177440.png")
+  user_first_login_date DateTime
+  tickets Ticket[]
+  messages Message[]
 }
 
 model Event {

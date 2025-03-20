@@ -44,6 +44,7 @@ export async function POST(request: Request) {
                 user_name,
                 user_email,
                 user_password,
+                user_first_login_date: new Date(),
                 ...rest
             }
         });
