@@ -39,3 +39,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#images
+public/images
+
+#prisma SQLite database
+prisma/tapakila.sql
+
+#data
+public/data/Admin.json
+public/data/Event.json
+public/data/Ticket.json
+public/data/User.json
+public/data

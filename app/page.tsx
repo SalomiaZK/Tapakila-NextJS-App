@@ -1,101 +1,293 @@
-import Image from "next/image";
+"use client";
+
+import EventCard from "@/components/EventCard";
+import { Slide } from "@mui/material";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+interface Event {
+  id: string;
+  name: string;
+  date: string;
+  location: string;
+  description: string;
+  imageUrl: string;
+  category: string;
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [showContent, setShowContent] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    async function fetchEvents() {
+      try {
+        const response = await fetch("/api/events");
+        console.log("Réponse de l'API :", response);
+        if (!response.ok) {
+          throw new Error("Erreur de chargement de la page");
+        }
+        const data = await response.json();
+        const formattedEvents = data.map((event: any) => ({
+          id: event.event_id,
+          name: event.event_name,
+          date: event.event_date,
+          location: event.event_place,
+          description: event.event_description,
+          imageUrl: event.event_image,
+          category: event.event_category || "Autres",
+        }));
+        setEvents(formattedEvents);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
+        setLoading(false);
+        setShowContent(true);
+      }
+    }
+    fetchEvents();
+  }, []);
+
+  const currentDate = new Date();
+
+  const upcomingEvents = events.filter((event) => new Date(event.date) >= currentDate);
+  const pastEvents = events.filter((event) => new Date(event.date) < currentDate);
+
+  return (
+    <div className="bg-blancCasse min-h-screen">
+      <section
+        className="relative h-screen flex items-center justify-start bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/img/home.jpg')",
+        }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="relative z-10 text-blancCasse px-8 lg:px-16">
+          {loading ? (
+            <div className="text-center justify-center text-blancCasse text-xl py-36">
+              Chargement en cours...
+            </div>
+          ) : error ? (
+            <div className="text-center text-red-500 text-xl py-36">
+              {error}
+            </div>
+          ) : (
+            <Slide in={showContent} direction="up" timeout={1000}>
+              <div>
+                <h1 className="text-5xl font-bold mb-6">Bienvenue sur Tapakila</h1>
+                <p className="text-xl mb-8">
+                  Découvrez et réservez vos billets <br />pour les meilleurs événements de votre vie.
+                </p>
+                <Link
+                  href="/events"
+                  className="bg-bleuElec text-blancCasse px-6 py-3 rounded-lg text-lg hover:bg-bleuNuit hover:text-orMetallique transition-colors"
+                >
+                  Découvrir Maintenant
+                </Link>
+              </div>
+            </Slide>
+          )}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      <section
+        className="relative py-16 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/img/event.jpg')",
+        }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="relative z-10">
+          <h2 className="text-2xl font-bold text-blancCasse mb-8 text-center">
+            Événements à l'affiche
+          </h2>
+          {upcomingEvents.length > 0 ? (
+            <Swiper
+              spaceBetween={30}
+              centeredSlides={true}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
+              pagination={{
+                clickable: true,
+              }}
+              navigation={true}
+              modules={[Autoplay, Pagination, Navigation]}
+              className="mySwiper"
+            >
+              {upcomingEvents.map((event) => (
+                <SwiperSlide key={event.id}>
+                  <div className="flex justify-center">
+                    <EventCard {...event} />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          ) : (
+            <p className="text-blancCasse text-lg text-center">
+              Aucun événement à l'affiche pour le moment.
+            </p>
+          )}
+        </div>
+      </section>
+
+      <section
+        className="relative py-16 px-6 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/img/eventSoon.jpg')",
+        }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="relative z-10">
+          <h2 className="text-2xl font-bold text-blancCasse mb-8 text-center">
+            Événements à Venir
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {upcomingEvents.length > 0 ? (
+              upcomingEvents.map((event) => (
+                <EventCard key={event.id} {...event} />
+              ))
+            ) : (
+              <p className="text-blancCasse text-lg text-center">
+                Aucun événement à venir pour le moment.
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="relative py-12 px-6 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/img/concert.jpg')",
+        }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="relative z-10">
+          <h2 className="text-2xl font-bold text-blancCasse mb-8">Spectacles & Concerts</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {upcomingEvents.filter((event) => event.category === "Spectacle" || event.category === "Concert").length > 0 ? (
+              upcomingEvents
+                .filter((event) => event.category === "Spectacle" || event.category === "Concert")
+                .map((event) => (
+                  <EventCard key={event.id} {...event} />
+                ))
+            ) : (
+              <p className="text-blancCasse text-lg text-center">
+                Aucun spectacle ou concert disponible pour le moment.
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="relative py-12 px-6 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/img/festival.jpg')",
+        }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="relative z-10">
+          <h2 className="text-2xl font-bold text-blancCasse mb-8">Festival & Culture</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {upcomingEvents.filter((event) => event.category === "Culture" || event.category === "Théâtre" || event.category === "Festival").length > 0 ? (
+              upcomingEvents
+                .filter((event) => event.category === "Culture" || event.category === "Théâtre" || event.category === "Festival")
+                .map((event) => (
+                  <EventCard key={event.id} {...event} />
+                ))
+            ) : (
+              <p className="text-blancCasse text-lg text-center">
+                Aucun festival ou événement culturel disponible pour le moment.
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="relative py-12 px-6 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/img/football.jpg')",
+        }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="relative z-10">
+          <h2 className="text-2xl font-bold text-blancCasse mb-8">Sports & Loisirs</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {upcomingEvents.filter((event) => event.category === "Sport" || event.category === "Loisir").length > 0 ? (
+              upcomingEvents
+                .filter((event) => event.category === "Sport" || event.category === "Loisir")
+                .map((event) => (
+                  <EventCard key={event.id} {...event} />
+                ))
+            ) : (
+              <p className="text-blancCasse text-lg text-center">
+                Aucun événement sportif disponible pour le moment.
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="relative py-12 px-6 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/img/bgOther.jpg')",
+        }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="relative z-10">
+          <h2 className="text-2xl font-bold text-blancCasse mb-8">Autres</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {upcomingEvents.filter((event) => event.category === "Autres" || event.category === "Conférence").length > 0 ? (
+              upcomingEvents
+                .filter((event) => event.category === "Autres" || event.category === "Conférence")
+                .map((event) => (
+                  <EventCard key={event.id} {...event} />
+                ))
+            ) : (
+              <p className="text-blancCasse text-lg text-center">
+                Aucun autre événement disponible pour le moment.
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="relative py-12 px-6 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/img/pastEvent.jpg')",
+        }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="relative z-10">
+          <h2 className="text-2xl font-bold text-blancCasse mb-8">
+            Événements Passés
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {pastEvents.length > 0 ? (
+              pastEvents.map((event) => (
+                <EventCard key={event.id} {...event} />
+              ))
+            ) : (
+              <p className="text-blancCasse text-lg text-center">
+                Aucun événement passé disponible pour le moment.
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

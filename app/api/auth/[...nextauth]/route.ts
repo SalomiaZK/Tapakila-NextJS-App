@@ -1,8 +1,9 @@
+
+import authconfig from "@/lib/auth.config";
+import { prisma } from "@/lib/prisma";
 import NextAuth from "next-auth";
-import authconfig from "@/lib/auth.config"; 
-import Credentials from "next-auth/providers/credentials";
-import { prisma } from "@/lib/prisma"; 
 import { JWT } from "next-auth/jwt";
+import Credentials from "next-auth/providers/credentials";
 
 export interface CustomUser {
   id: string;
@@ -59,12 +60,10 @@ const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
   pages: {
-    signIn: "/login", // Page de connexion personnalisée
+    signIn: "/login",
   },
 });
 
-// Exporte les handlers GET et POST
 export const { GET, POST } = handlers;
 
-// Exporte les fonctions pour les utiliser dans ton application
-export { signIn, signOut, auth };
+export { auth, signIn, signOut };
